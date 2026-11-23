@@ -1,0 +1,23 @@
+# Snakemake internals
+.snakemake/
+
+# data and results are never committed to this repository
+*.parquet
+*.tsv
+*.tsv.gz
+*.txt.gz
+*.bed
+*.bed.gz
+*.vcf
+*.vcf.gz
+*.bam
+*.h5
+results/
+data/
+logs/
+
+# environments and caches
+__pycache__/
+*.pyc
+.Rhistory
+.DS_Store

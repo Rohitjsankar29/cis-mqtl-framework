@@ -1,0 +1,40 @@
+# =============================================================================
+# cis-mQTL convergence framework: run configuration.
+#
+# All paths below are PLACEHOLDERS. Point them at your own cohort and run:
+#     snakemake --profile profile/pbs
+#
+# To apply the framework to a different cohort, copy this file, swap the input
+# paths, and rerun with --configfile. Nothing else changes.
+# =============================================================================
+
+# ---- root directories -------------------------------------------------------
+mqtl_in:      /path/to/cohort/inputs        # genotypes, methylation matrix, covariates
+downstream:   /path/to/cohort/outputs       # all pipeline outputs are written here
+repo:         /path/to/this/repository
+scripts_cov2: /path/to/analysis/scripts     # stage scripts invoked by the rules
+annotation:   /path/to/reference/annotation # gencode TSS, CpG islands, ENCODE cCREs
+coloc_dir:    /path/to/coloc                # disease colocalisation working directory
+
+# ---- software environments --------------------------------------------------
+env:
+  mamba_exe:     /path/to/micromamba
+  mamba_root:    /path/to/micromamba/root
+  tensorqtl_env: tensorqtl_env              # conda env name for the QTL stages
+
+# ---- analysis parameters ----------------------------------------------------
+params:
+  cis_window:    1000000    # +/- 1 Mb cis window
+  maf_threshold: 0.05       # minor allele frequency cutoff
+
+# ---- five-axis convergence scoring -----------------------------------------
+# Axis 1  fine-mapping posterior inclusion probability
+# Axis 2  allele-specific methylation
+# Axis 3  regulatory element (ENCODE cCRE) overlap
+# Axis 4  structural-variant linkage
+# Axis 5  effect-size quintile
+convergence:
+  pip_threshold:   0.9      # axis 1 threshold
+  fdr:             0.05     # significance threshold
+  effect_quintile: 0.8      # axis 5: top 20% of effect sizes
+  min_axes:        5        # report variants meeting all five axes
